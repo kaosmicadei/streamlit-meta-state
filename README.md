@@ -1,20 +1,20 @@
-# MetaSessionState for Streamlit
+# StreamlitMetaState
 
-MetaSessionState is a Python package that enables seamless session persistence for class instances in [Streamlit](https://streamlit.io) applications. By leveraging a metaclass and descriptors, it automatically binds class attributes to Streamlit's session state, eliminating the need for manual session management.
+StreamlitMetaState is a Python package that enables seamless session persistence for class instances in [Streamlit](https://streamlit.io) applications. By leveraging a metaclass and descriptors, it automatically binds class attributes to Streamlit's session state, eliminating the need for manual session management.
 
 ## Features
 
 - **Automatic Session Persistence**: No need to manually store and retrieve instance data in Streamlit session state.
-- **Seamless Integration**: Works with any class by simply using `MetaSessionState` as a metaclass.
+- **Seamless Integration**: Works with any class by simply using `StreamlitMetaState` as a metaclass.
 - **State Synchronization**: Ensures attributes remain synchronized between session state and class instances.
 - **Instance Persistence**: Supports multiple instances with unique session keys.
 
 ## Installation
 
-Install MetaSessionState via pip:
+Install StreamlitMetaState via pip:
 
 ```bash
-pip install metasessionstate
+pip install streamlit-meta-state
 ```
 
 ## Usage
@@ -25,7 +25,7 @@ To ensure proper functionality, **class variables must be annotated** in the cla
 
 ```python
 import streamlit as st
-from metasessionstate import MetaSessionState
+from streamlit_meta_state import MetaSessionState
 
 class MyPersistentClass(metaclass=MetaSessionState):
     name: str
@@ -66,9 +66,9 @@ This project is licensed under the MIT License.
 
 ## Contributing
 
-Contributions are welcome! If you'd like to improve MetaSessionState, feel free to submit a pull request.
+Contributions are welcome! If you'd like to improve StreamlitMetaState, feel free to submit a pull request.
 
 ## Issues
 
-If you encounter any issues, please open an [issue on GitHub](https://github.com/yourusername/metasessionstate/issues).
+If you encounter any issues, please open an [issue on GitHub](https://github.com/yourusername/streamlit-meta-state/issues).
 

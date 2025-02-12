@@ -1,5 +1,5 @@
 import streamlit as st
-from src.streamlit_session_state import MetaSessionState
+from src.streamlit_meta_state import MetaSessionState
 
 
 class MyPersistentClass(metaclass=MetaSessionState):
