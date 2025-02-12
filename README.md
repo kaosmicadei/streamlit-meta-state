@@ -70,5 +70,5 @@ Contributions are welcome! If you'd like to improve StreamlitMetaState, feel fre
 
 ## Issues
 
-If you encounter any issues, please open an [issue on GitHub](https://github.com/yourusername/streamlit-meta-state/issues).
+If you encounter any issues, please open an [issue on GitHub](https://github.com/igormicadei/streamlit-meta-state/issues).
 
