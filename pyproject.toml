@@ -1,5 +1,5 @@
 [build-system]
-requires = ["setuptools", "wheel"]
+requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
@@ -16,8 +16,7 @@ classifiers = [
     "License :: OSI Approved :: MIT License",
     "Operating System :: OS Independent",
 ]
-license = "MIT"
-license-files = ["LICEN[CS]E*"]
+license = {"text" = "MIT"}
 
 [project.urls]
 Homepage = "https://github.com/igormicadei/streamlit-meta-state"
