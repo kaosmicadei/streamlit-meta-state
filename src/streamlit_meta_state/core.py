@@ -8,7 +8,6 @@ ensure that instances are uniquely stored and retrieved based on a session key.
 """
 
 from typing import Any
-import inspect
 
 from streamlit.runtime.state.common import require_valid_user_key
 from streamlit.runtime.state import get_session_state
@@ -97,28 +96,6 @@ class SessionVar:
         get_session_state()[key] = value
 
 
-class SessionVarWrapper:
-    """Wrapper object to provide access to both the value and the key."""
-
-    def __init__(self, descriptor, instance):
-        self._descriptor = descriptor
-        self._instance = instance
-
-    @property
-    def key(self) -> str:
-        """Get the session state key for this attribute."""
-        return self._descriptor._make_key(self._instance)
-
-    def __str__(self) -> str:
-        """Return the actual value when converted to a string."""
-        return str(self._descriptor.__get__(self._instance, None))
-
-    def __getattr__(self, name: str) -> Any:
-        """Delegate attribute access to the actual value."""
-        value = self._descriptor.__get__(self._instance, None)
-        return getattr(value, name)
-
-
 class MetaSessionState(type):
     """
     Metaclass that binds class attributes to Streamlit's session state.
@@ -188,10 +165,5 @@ class MetaSessionState(type):
 
         for var_name in class_dict.get("__annotations__", {}):
             setattr(new_class, var_name, SessionVar(var_name))
-
-        def __str__(self) -> str:
-            return self.__instance_key__
-
-        new_class.__str__ = __str__
 
         return new_class
