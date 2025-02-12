@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "StreamlitSessionState"
+version = "0.1.0"
+authors = [
+  { name="Igor Micadei", email="i.micadei@gmail.com" },
+]
+description = "A Streamlit module for session state management"
+readme = "README.md"
+requires-python = ">=3.8"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+[project.urls]
+Homepage = "https://github.com/igormicadei/StreamlitSessionState"
+Issues = "https://github.com/igormicadei/StreamlitSessionState/issues"
