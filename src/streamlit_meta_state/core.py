@@ -8,6 +8,7 @@ ensure that instances are uniquely stored and retrieved based on a session key.
 """
 
 from typing import Any
+import inspect
 
 from streamlit.runtime.state.common import require_valid_user_key
 from streamlit.runtime.state import get_session_state
@@ -32,10 +33,6 @@ class SessionVar:
         """
         self.name: str = name
 
-        # Store the session state key for this attribute, generated when
-        # `_make_key` is called.
-        self._key: str | None = None
-
     @property
     def cache_name(self) -> str:
         """
@@ -45,18 +42,6 @@ class SessionVar:
             str: The cache name, which is the attribute name prefixed with an underscore.
         """
         return f"_{self.name}"
-    
-    @property
-    def key(self) -> str:
-        """
-        Get the session state key for this attribute.
-
-        Returns:
-            str: The session state key in the format '<instance_key>.<attribute_name>'.
-        """
-        if self._key is None:
-            raise ValueError("SessionVar key not set")
-        return self._key
 
     def _make_key(self, instance) -> str:
         """
@@ -68,8 +53,7 @@ class SessionVar:
         Returns:
             str: A unique key in the format '<instance_key>.<attribute_name>'.
         """
-        self._key = f"{instance.__instance_key__}.{self.name}"
-        return self._key
+        return f"{instance.__instance_key__}.{self.name}"
 
     def __get__(self, instance, owner) -> Any:
         """
@@ -111,6 +95,28 @@ class SessionVar:
         instance.__dict__[self.cache_name] = value
         require_valid_user_key(key=key)
         get_session_state()[key] = value
+
+
+class SessionVarWrapper:
+    """Wrapper object to provide access to both the value and the key."""
+
+    def __init__(self, descriptor, instance):
+        self._descriptor = descriptor
+        self._instance = instance
+
+    @property
+    def key(self) -> str:
+        """Get the session state key for this attribute."""
+        return self._descriptor._make_key(self._instance)
+
+    def __str__(self) -> str:
+        """Return the actual value when converted to a string."""
+        return str(self._descriptor.__get__(self._instance, None))
+
+    def __getattr__(self, name: str) -> Any:
+        """Delegate attribute access to the actual value."""
+        value = self._descriptor.__get__(self._instance, None)
+        return getattr(value, name)
 
 
 class MetaSessionState(type):
@@ -183,4 +189,10 @@ class MetaSessionState(type):
         for var_name in class_dict.get("__annotations__", {}):
             setattr(new_class, var_name, SessionVar(var_name))
 
+        def __str__(self) -> str:
+            return self.__instance_key__
+
+        new_class.__str__ = __str__
+
         return new_class
+    
